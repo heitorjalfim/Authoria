@@ -11,18 +11,23 @@ public class Livro {
     private double valor;
     private StatusLivro status;
 
-    public Livro(Autor autor, String titulo, int ano, double valor){
-        validar(autor, titulo, ano, valor);
+    public Livro(String titulo, int ano, double valor){
+        validar(titulo, ano, valor);
         this.titulo = titulo;
-        this.autor = autor;
         this.ano = ano;
         this.status = StatusLivro.DISPONIVEL;
     }
 
-    public void validar(Autor autor, String titulo, int ano, double valor){
-        if (autor == null) {
-            throw new IllegalArgumentException("Autor invalido");
-        }
+    public Livro(Long id, Autor autor, String titulo, int ano, Double valor) {
+        this.id = id;
+        this.autor = autor;
+        this.titulo = titulo;
+        this.ano = ano;
+        this.valor = valor;
+        this.status = StatusLivro.DISPONIVEL;
+    }
+
+    public void validar(String titulo, int ano, double valor){
         if (titulo == null || titulo.isBlank() || titulo.length() < 1) {
             throw new IllegalArgumentException("Titulo invalido");
         }

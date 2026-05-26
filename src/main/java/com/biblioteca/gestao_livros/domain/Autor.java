@@ -6,21 +6,25 @@ import lombok.Getter;
 
 @Getter
 public class Autor {
-    private long id;
+    private Long id;
     private List<Livro> livros = new ArrayList<>();
     private String nome;
     private String nacionalidade;
-    private double renda;
+    private Double renda;
 
-    public Autor(String nome){
+    public Autor(String nome, String nacionalidade){
         validar(nome, nacionalidade);
         this.nome = nome;
+        this.nacionalidade = nacionalidade;
+        this.renda = 0.0;
     }
 
-    public Autor(String nome, String nacionalidade, List<Livro> livros, double renda){
-        validarRendaArray(nome, 
+    public Autor(Long id, String nome, String nacionalidade, Double renda) {
+        this.id = id;
+        this.nome = nome;
+        this.nacionalidade = nacionalidade;
+        this.renda = renda;
     }
-
 
     public void validar(String nome, String nacionalidade){
         if (nome.isEmpty() || nome.isBlank() || nome.length() < 2) {
@@ -44,15 +48,9 @@ public class Autor {
     }
 
     public void setNacionalidade(String n){
-        if (n.isBlank() || n.equals(null)) {
+        if (n.equals(null) || n.isBlank()) {
             throw new IllegalArgumentException("Nacionalidade invalida");
         }
         this.nacionalidade = n;
-    }
-
-    public void setRenda(Long r){
-        if (r < 0 || r > this.renda) {
-            
-        }
     }
 }

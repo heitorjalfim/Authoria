@@ -17,5 +17,5 @@ public class AutorEntity {
     private List<LivroEntity> livros = new ArrayList<>();
     private String nome;
     private String nacionalidade;
-    private double renda;
+    private Double renda = 0.0;
 }

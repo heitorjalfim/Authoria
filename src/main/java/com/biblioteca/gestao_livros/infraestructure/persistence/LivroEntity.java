@@ -23,6 +23,7 @@ public class LivroEntity {
     @ManyToOne
     @JoinColumn(name = "autor_id")
     private AutorEntity autor;
+    
     private String titulo;
     private int ano;
     private double valor;

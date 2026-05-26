@@ -4,21 +4,23 @@ import com.biblioteca.gestao_livros.domain.*;
 import org.springframework.stereotype.Repository;
 import java.util.*;
 
-import com.biblioteca.gestao_livros.domain.LivroRepository;
-
 import lombok.RequiredArgsConstructor;
 
 @Repository
 @RequiredArgsConstructor
-public class JpaLivroRepository implements LivroRepository{
+public class JpaLivroRepository implements ILivroRepository{
     private final SpringDataLivroRepository springDataRepoLivro;
+    private final SpringDataAutorRepository springDataRepoAutor;
 
     @Override
     public Optional<Livro> findById(Long id){
         Optional<LivroEntity> livroEntity = springDataRepoLivro.findById(id);
         return livroEntity.map(entity -> {
-            Autor autorDominio = new Autor(entity.getAutor());
-            Livro livroDominio = new Livro(autorDominio, entity.getTitulo(), entity.getAno(), entity.getValor());
+            AutorEntity autorEntity = entity.getAutor();
+            Autor autorDominio = new Autor
+            (autorEntity.getId(), autorEntity.getNome(), autorEntity.getNacionalidade(), autorEntity.getRenda());
+            Livro livroDominio = new Livro(entity.getTitulo(), entity.getAno(), entity.getValor());
+            livroDominio.setAutor(autorDominio);
             livroDominio.setId(entity.getId());
             return livroDominio;
         });
@@ -27,12 +29,15 @@ public class JpaLivroRepository implements LivroRepository{
     @Override
     public void salvar(Livro livro){
         LivroEntity novoLivro = new LivroEntity();
-        //Optional<AutorEntity> =
         novoLivro.setAno(livro.getAno());
-        novoLivro.setAutor(null);
         novoLivro.setStatus(StatusLivro.DISPONIVEL);
         novoLivro.setTitulo(livro.getTitulo());
         novoLivro.setValor(livro.getValor());
+
+        AutorEntity autor = springDataRepoAutor.findById(livro.getAutor().getId()).orElseThrow(
+            () -> new IllegalStateException("Autor ja deveria existir"));
+        novoLivro.setAutor(autor);
+
         springDataRepoLivro.save(novoLivro);
     }
 
