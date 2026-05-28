@@ -6,6 +6,7 @@ import com.biblioteca.gestao_livros.domain.IAutorRepository;
 import com.biblioteca.gestao_livros.domain.Livro;
 import com.biblioteca.gestao_livros.domain.ILivroRepository;
 
+
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -21,7 +22,13 @@ public class AutorService {
         return autorRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("Autor nao encontrado"));
     }
 
-    public void salvar(String nome, String nacionalidade){
+    public void criar(String nome, String nacionalidade){
+        if (nome == null || nome.isBlank()) {
+            throw new IllegalArgumentException("Nome invalido");
+        }
+        if (nacionalidade.equals(null) || nacionalidade.isBlank()) {
+            throw new IllegalArgumentException("Nacionalidade invalida");
+        }
         Autor novoAutor = new Autor(nome, nacionalidade);
         autorRepo.salvar(novoAutor);
     }
@@ -40,5 +47,4 @@ public class AutorService {
         autor.publicar(novoLivro);
         livroRepo.salvar(novoLivro);
     }
-
 }
