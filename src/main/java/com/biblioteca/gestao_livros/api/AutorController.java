@@ -38,6 +38,7 @@ public class AutorController {
         return ResponseEntity.ok(autor);
     } 
 
+    // atualizar pra nao poder apagar caso o autor ainda tenha livros
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Long id){
         autorService.deletar(id);

@@ -19,26 +19,31 @@ public class JpaLivroRepository implements ILivroRepository{
             AutorEntity autorEntity = entity.getAutor();
             Autor autorDominio = new Autor
             (autorEntity.getId(), autorEntity.getNome(), autorEntity.getNacionalidade(), autorEntity.getRenda());
-            Livro livroDominio = new Livro(entity.getTitulo(), entity.getAno(), entity.getValor());
-            livroDominio.setAutor(autorDominio);
-            livroDominio.setId(entity.getId());
+            Livro livroDominio = new Livro(id, autorDominio, entity.getTitulo(), entity.getAno(), entity.getValor(), entity.getStatus());
             return livroDominio;
         });
     }
 
     @Override
     public void salvar(Livro livro){
-        LivroEntity novoLivro = new LivroEntity();
-        novoLivro.setAno(livro.getAno());
-        novoLivro.setStatus(StatusLivro.DISPONIVEL);
-        novoLivro.setTitulo(livro.getTitulo());
-        novoLivro.setValor(livro.getValor());
+        LivroEntity entity;
+        if (livro.getId() != null && livro.getId() > 0) {
+            entity = springDataRepoLivro.findById(livro.getId()).orElseThrow(
+                () -> new IllegalArgumentException("ID nao encontrado"));
+        } else {
+            entity = new LivroEntity();
+        }
+        entity.setId(livro.getId());
+        entity.setAno(livro.getAno());
+        entity.setStatus(livro.getStatus());
+        entity.setTitulo(livro.getTitulo());
+        entity.setValor(livro.getValor());
 
         AutorEntity autor = springDataRepoAutor.findById(livro.getAutor().getId()).orElseThrow(
             () -> new IllegalStateException("Autor ja deveria existir"));
-        novoLivro.setAutor(autor);
+        entity.setAutor(autor);
 
-        springDataRepoLivro.save(novoLivro);
+        springDataRepoLivro.save(entity);
     }
 
     @Override

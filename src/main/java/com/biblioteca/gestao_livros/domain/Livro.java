@@ -4,7 +4,7 @@ import lombok.*;
 
 @Getter
 public class Livro {
-    private long id;
+    private Long id;
     private Autor autor;
     private String titulo;
     private int ano;
@@ -15,16 +15,17 @@ public class Livro {
         validar(titulo, ano, valor);
         this.titulo = titulo;
         this.ano = ano;
+        this.valor = valor;
         this.status = StatusLivro.DISPONIVEL;
     }
 
-    public Livro(Long id, Autor autor, String titulo, int ano, Double valor) {
+    public Livro(Long id, Autor autor, String titulo, int ano, Double valor, StatusLivro status) {
         this.id = id;
         this.autor = autor;
         this.titulo = titulo;
         this.ano = ano;
         this.valor = valor;
-        this.status = StatusLivro.DISPONIVEL;
+        this.status = status;
     }
 
     public void validar(String titulo, int ano, double valor){
@@ -40,7 +41,7 @@ public class Livro {
     }
 
     public void emprestar(){
-        if (this.status == StatusLivro.EMPRESTADO|| this.status == StatusLivro.VENDIDO) {
+        if (this.status == StatusLivro.EMPRESTADO || this.status == StatusLivro.VENDIDO) {
             throw new IllegalArgumentException("Livro ja emprestado ou vendido");
         }
         this.status = StatusLivro.EMPRESTADO;
