@@ -19,7 +19,7 @@ public class LivroResponseDTO {
         this.titulo = livro.getTitulo();
         this.anoLancamento = livro.getAno();
         this.valor = livro.getValor();
-        this.idAutor = livro.getAutor().getId();
+        this.idAutor = livro.getIdAutor();
         this.nomeAutor = livro.getAutor().getNome();
         this.status = livro.getStatus();
     }

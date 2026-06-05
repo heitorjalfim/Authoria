@@ -2,7 +2,7 @@ package com.biblioteca.gestao_livros.infraestructure.persistence;
 
 import com.biblioteca.gestao_livros.domain.StatusLivro;
 
-
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -19,6 +19,9 @@ public class LivroEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "id_usuario_atual", nullable = true) 
+    private Long idUsuarioAtual;
 
     @ManyToOne
     @JoinColumn(name = "autor_id")

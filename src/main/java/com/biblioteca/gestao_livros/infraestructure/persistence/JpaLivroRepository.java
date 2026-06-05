@@ -19,7 +19,7 @@ public class JpaLivroRepository implements ILivroRepository{
             AutorEntity autorEntity = entity.getAutor();
             Autor autorDominio = new Autor
             (autorEntity.getId(), autorEntity.getNome(), autorEntity.getNacionalidade(), autorEntity.getRenda());
-            Livro livroDominio = new Livro(id, autorDominio, entity.getTitulo(), entity.getAno(), entity.getValor(), entity.getStatus());
+            Livro livroDominio = new Livro(id, autorDominio.getId(), entity.getTitulo(), entity.getAno(), entity.getValor(), entity.getStatus());
             return livroDominio;
         });
     }
@@ -33,13 +33,12 @@ public class JpaLivroRepository implements ILivroRepository{
         } else {
             entity = new LivroEntity();
         }
-        entity.setId(livro.getId());
         entity.setAno(livro.getAno());
         entity.setStatus(livro.getStatus());
         entity.setTitulo(livro.getTitulo());
         entity.setValor(livro.getValor());
 
-        AutorEntity autor = springDataRepoAutor.findById(livro.getAutor().getId()).orElseThrow(
+        AutorEntity autor = springDataRepoAutor.findById(livro.getIdAutor()).orElseThrow(
             () -> new IllegalStateException("Autor ja deveria existir"));
         entity.setAutor(autor);
 

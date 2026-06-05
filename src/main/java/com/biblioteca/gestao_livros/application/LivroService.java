@@ -10,7 +10,7 @@ public class LivroService {
     private final ILivroRepository livroRepo;
 
     public void vender(Long id){
-        if (id == null || id < 0) {
+        if (id == null || id <= 0) {
             throw new IllegalArgumentException("Id invalido");
         }
         Livro livro = livroRepo.findById(id).orElseThrow(
@@ -20,7 +20,7 @@ public class LivroService {
     }
 
     public void devolver(Long id){
-        if (id < 0 || id == null) {
+        if (id == null || id <= 0) {
             throw new IllegalArgumentException("Id invalido");
         }
         Livro livro = livroRepo.findById(id).orElseThrow(
@@ -30,7 +30,7 @@ public class LivroService {
     }
 
     public void emprestar(Long id){
-        if (id < 0 || id == null) {
+        if (id == null || id <= 0) {
             throw new IllegalArgumentException("Id invalido");
         }
         Livro livro = livroRepo.findById(id).orElseThrow(
